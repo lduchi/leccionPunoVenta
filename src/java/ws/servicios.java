@@ -23,8 +23,6 @@ public class servicios {
 
     List<Persona> listaPersonas = new ArrayList<>();
     List<Rol> listaRoles = new ArrayList<>();
-    List<Rol> listaUsuarioRol = new ArrayList<>();
-    List<Producto> listaProductos = new ArrayList<>();
     /**
      * This is a sample web service operation
      */
