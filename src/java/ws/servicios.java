@@ -2,11 +2,15 @@
 package ws;
 
 import java.util.ArrayList;
+import java.util.List;
 import javax.jws.WebService;
 import javax.jws.WebMethod;
 import javax.jws.WebParam;
 import modelo.Competencia;
+import modelo.Persona;
+import modelo.Producto;
 import modelo.Rol;
+import modelo.Usuario;
 
 /**
  *
@@ -15,6 +19,12 @@ import modelo.Rol;
 @WebService(serviceName = "servicios")
 public class servicios {
 
+    //private final AES_ENCRYPTOR ac = new AES_ENCRYPTOR();
+
+    List<Persona> listaPersonas = new ArrayList<>();
+    List<Rol> listaRoles = new ArrayList<>();
+    List<Rol> listaUsuarioRol = new ArrayList<>();
+    List<Producto> listaProductos = new ArrayList<>();
     /**
      * This is a sample web service operation
      */
@@ -69,4 +79,31 @@ public class servicios {
         
         return null;
     }
+    
+    @WebMethod(operationName = "buscarP")
+    public String buscarP(@WebParam(name = "dni") String dni) {
+        String rol = null;
+        for (Persona persona : listaPersonas) {
+            if (dni.equals(persona.getDni())) {
+                dni=persona.getDni();
+                break;
+            }
+        }
+        System.out.println(rol);
+        return rol;
+    }
+
+    @WebMethod(operationName = "nombreCompl")
+    public String nombreCompl(@WebParam(name = "nombreCompleto") String nombreCompleto) {
+        String nombre = null;
+        for (Persona persona : listaPersonas) {
+            if (nombreCompleto.equals(persona.getNombre()+persona.getApellido())) {
+                nombre = persona.getNombre()+persona.getApellido();
+                break;
+            }
+        }
+        System.out.println(nombre);
+        return nombre;
+    }
+
 }
