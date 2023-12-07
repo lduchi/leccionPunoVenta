@@ -6,9 +6,11 @@ import java.util.List;
 import javax.jws.WebService;
 import javax.jws.WebMethod;
 import javax.jws.WebParam;
+import modelo.Clasificacion;
 import modelo.Competencia;
 import modelo.Persona;
 import modelo.Producto;
+import modelo.Proveedores;
 import modelo.Rol;
 import modelo.Usuario;
 
@@ -99,6 +101,24 @@ public class servicios {
             }
         }
         return nombre;
+    }
+    
+        @WebMethod(operationName = "crearProducto")
+    public boolean crearProducto(
+            @WebParam(name = "idProducto") int idProducto,
+            @WebParam(name = "stock") int stock,
+            @WebParam(name = "precioUnitario") double precioUnitario,
+            @WebParam(name = "unidad") String unidad,
+            @WebParam(name = "idClasificacion") Clasificacion idClasificacion,
+            @WebParam(name = "idProveedor") Proveedores idProveedor,
+            @WebParam(name = "iva") boolean iva) {
+
+        Producto nuevoProducto = new Producto(idProducto, stock, precioUnitario, unidad, idClasificacion, idProveedor, iva);
+
+        ArrayList<Producto> productos = new ArrayList<>();
+        productos.add(nuevoProducto);
+
+        return true;
     }
 
 }
