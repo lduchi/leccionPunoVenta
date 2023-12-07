@@ -82,15 +82,13 @@ public class servicios {
     
     @WebMethod(operationName = "buscarP")
     public String buscarP(@WebParam(name = "dni") String dni) {
-        String rol = null;
         for (Persona persona : listaPersonas) {
             if (dni.equals(persona.getDni())) {
                 dni=persona.getDni();
                 break;
             }
         }
-        System.out.println(rol);
-        return rol;
+        return dni;
     }
 
     @WebMethod(operationName = "nombreCompl")
@@ -102,7 +100,6 @@ public class servicios {
                 break;
             }
         }
-        System.out.println(nombre);
         return nombre;
     }
 
