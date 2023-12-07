@@ -1,4 +1,3 @@
-
 package ws;
 
 import java.util.ArrayList;
@@ -12,13 +11,15 @@ import modelo.Persona;
 import modelo.Producto;
 import modelo.Proveedores;
 import modelo.*;
+import java.util.Date;
 
 @WebService(serviceName = "peticiones")
 public class peticiones {
 
     List<Persona> listaPersonas = new ArrayList<>();
     List<Rol> listaRoles = new ArrayList<>();
-
+    List<Factura> listaFactura = new ArrayList<>();
+    List<Tipo_Pago> listaTiposPago = new ArrayList<>();
 
     @WebMethod(operationName = "hello")
     public String hello(@WebParam(name = "name") String txt) {
@@ -170,4 +171,54 @@ public class peticiones {
 
         return true;
     }
+
+    @WebMethod(operationName = "crearFactura")
+    public boolean crearFactura(
+            @WebParam(name = "idFactura") int idFactura,
+            @WebParam(name = "ruc") String ruc,
+            @WebParam(name = "idPersona") int idPersona,
+            @WebParam(name = "fecha") Date fecha,
+            @WebParam(name = "idTipoPago") int idTipoPago,
+            @WebParam(name = "descuento") double descuento,
+            @WebParam(name = "total") double total,
+            @WebParam(name = "items") List<ItemFactura> items) {
+
+        Persona persona = obtenerPersonaPorId(idPersona);
+
+        Tipo_Pago tipoPago = obtenerTipoPagoPorId(idTipoPago);
+
+        Factura nuevaFactura = new Factura(idFactura, ruc, persona, fecha, tipoPago, descuento, total);
+
+        nuevaFactura.setId_factura(idFactura);
+        nuevaFactura.setId_persona(persona);
+        nuevaFactura.setRuc(ruc);
+        nuevaFactura.setFecha(fecha);
+        nuevaFactura.setId_tipo_pago(tipoPago);
+        nuevaFactura.setDescuento(descuento);
+        nuevaFactura.setTotal(total);
+
+        listaFactura.add(nuevaFactura);
+
+        return true;
+    }
+
+    // Método para obtener una persona por su ID
+    private Persona obtenerPersonaPorId(int idPersona) {
+        for (Persona persona : listaPersonas) {
+            if (persona.getId_persona() == idPersona) {
+                return persona;
+            }
+        }
+        return null;
+    }
+
+    private Tipo_Pago obtenerTipoPagoPorId(int idTipoPago) {
+        for (Tipo_Pago tipoPago : listaTiposPago) {
+            if (tipoPago.getId_tipo_pago() == idTipoPago) {
+                return tipoPago;
+            }
+        }
+        return null; 
+    }
+
 }
