@@ -1,26 +1,42 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package ws;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import javax.jws.WebService;
 import javax.jws.WebMethod;
 import javax.jws.WebParam;
 import modelo.Clasificacion;
 import modelo.Competencia;
+import modelo.Factura;
+import modelo.ItemFactura;
 import modelo.Persona;
 import modelo.Producto;
 import modelo.Proveedores;
-import modelo.*;
-import java.util.Date;
+import modelo.Rol;
+import modelo.Tipo_Pago;
+import modelo.Usuario;
+import modelo.UsuarioRol;
 
 @WebService(serviceName = "peticiones")
 public class peticiones {
 
     List<Persona> listaPersonas = new ArrayList<>();
     List<Rol> listaRoles = new ArrayList<>();
+    Rol rol = new Rol();
+    ArrayList<Rol> rolesexistentes = rol.roles;
     List<Factura> listaFactura = new ArrayList<>();
+
     List<Tipo_Pago> listaTiposPago = new ArrayList<>();
 
+    /**
+     * This is a sample web service operation
+     */
     @WebMethod(operationName = "hello")
     public String hello(@WebParam(name = "name") String txt) {
         return "Hello " + txt + " !";
@@ -59,9 +75,17 @@ public class peticiones {
 
     @WebMethod(operationName = "siexisterol")
     public Boolean siexisterol(@WebParam(name = "nombre") String nombre) {
-        Rol rol = new Rol();
 
-        ArrayList<Rol> rolesexistentes = rol.roles;
+        Rol rol2 = new Rol(1, "admin", true);
+        Rol rol3 = new Rol(2, "cliente", true);
+        Rol rol4 = new Rol(3, "empleado", true);
+        Rol rol5 = new Rol(4, "vendedor", true);
+        Rol rol6 = new Rol(5, "secretaria", true);
+        rol.roles.add(rol2);
+        rol.roles.add(rol3);
+        rol.roles.add(rol4);
+        rol.roles.add(rol5);
+        rol.roles.add(rol6);
 
         for (Rol rols : rolesexistentes) {
             if (rols.getRol().equals(nombre)) {
@@ -104,6 +128,28 @@ public class peticiones {
             bd_tabla_usuario_rol.add(usuariorol);
 
             return "Registro exitoso: Usuario, Persona y Rol registrados correctamente.";
+        }
+    }
+
+    @WebMethod(operationName = "registrarrol")
+    public String registrarrol(
+            @WebParam(name = "rolnombre") String rolnombre,
+            @WebParam(name = "estado") boolean estado,
+            @WebParam(name = "id") int id) {
+
+        try {
+            Rol rol = new Rol(id, rolnombre, estado);
+            for (Rol rols : rolesexistentes) {
+                if (rols.getId_rol() == id) {
+                    return "El rol con el mismo ID ya existe. No se puede registrar.";
+                }
+            }
+
+            rolesexistentes.add(rol);
+            return "Éxito al registrar el rol";
+        } catch (Exception e) {
+            e.printStackTrace(); 
+            return "Error al registrar el rol";
         }
     }
 
@@ -202,7 +248,6 @@ public class peticiones {
         return true;
     }
 
-    // Método para obtener una persona por su ID
     private Persona obtenerPersonaPorId(int idPersona) {
         for (Persona persona : listaPersonas) {
             if (persona.getId_persona() == idPersona) {
@@ -218,7 +263,7 @@ public class peticiones {
                 return tipoPago;
             }
         }
-        return null; 
+        return null;
     }
 
 }
