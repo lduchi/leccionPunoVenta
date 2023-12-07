@@ -1,4 +1,3 @@
-
 package modelo;
 
 public class ItemFactura {
