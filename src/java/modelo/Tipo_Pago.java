@@ -46,6 +46,11 @@ public class Tipo_Pago {
     public void setDescrip(String descrip) {
         this.descrip = descrip;
     }
+
+    @Override
+    public String toString() {
+        return "Tipo_Pago{" + "id_tipo_pago=" + id_tipo_pago + ", tipo=" + tipo + ", descrip=" + descrip + '}';
+    }
     
     
 }
